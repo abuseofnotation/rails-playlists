@@ -40,5 +40,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-.un~
-.swp
+*.un~
+*.swp
