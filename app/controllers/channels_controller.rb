@@ -20,6 +20,6 @@ class ChannelsController < ApplicationController
     end
   end
   def channel_params
-    params.require(:channel).permit(:name, :description)
+    params.require(:channel).permit(:name, :description, :object_type)
   end
 end

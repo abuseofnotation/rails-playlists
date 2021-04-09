@@ -15,13 +15,14 @@ ActiveRecord::Schema.define(version: 2021_04_08_145407) do
   create_table "channels", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.string "object_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "items", force: :cascade do |t|
     t.string "name"
-    t.text "description"
+    t.string "url"
     t.integer "channel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

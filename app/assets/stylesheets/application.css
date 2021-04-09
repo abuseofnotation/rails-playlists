@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+ .channels {
+  display: flex;
+  alighn-items: stretch;
+  flex-wrap: wrap;
+ }
