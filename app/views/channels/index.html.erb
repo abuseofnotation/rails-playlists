@@ -1,0 +1,63 @@
+
+<h1>My Channels</h1>
+  <div>
+    <% @channels.each do |channel| %>
+        <h2><%= channel.name %></h2>
+        <p><%= channel.description %></p>
+        <p><%= channel.id %></p>
+        <% channel.items.each do |item| %>
+          <p><%= item.description %></p>
+        <% end %>
+
+        <h3>Add item</h3>
+        <%= form_with(model: channel.items.build , url: { :action => "create", :controller => "items" }, local: true ) do |form| %>
+          <div class="field">
+            <%= form.label :name %>
+            <%= form.text_field :name %>
+          </div>
+
+          <div class="field">
+            <%= form.label :description %>
+            <%= form.text_area :description %>
+          </div>
+          <%= form.hidden_field :channel_id, :value => channel.id %>
+
+          <div class="actions">
+            <%= form.submit %>
+          </div>
+        <% end %>
+
+    <% end %>
+  </div>
+
+
+
+<h1>Create channel</h1>
+<%= form_with(model: @channel, local: true) do |form| %>
+  <% if @channel.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@channel.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+        <% @channel.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
