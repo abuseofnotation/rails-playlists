@@ -1,6 +1,12 @@
 class ChannelsController < ApplicationController
+  helper_method :object_type
+  def object_type
+    params[:object_type]
+  end
+
   def index
-    @channels = Channel.all
+    puts object_type
+    @channels = object_type ? Channel.where({object_type: object_type}) : Channel.all
     @channel = Channel.new
   end
 
@@ -11,7 +17,7 @@ class ChannelsController < ApplicationController
 
     respond_to do |format|
       if @channel.save
-        format.html { redirect_to '/', notice: "Channel was successfully created." }
+        format.html { redirect_back fallback_location: '/', notice: "Channel was successfully created." }
         format.json { render :show, status: :created, location: @channel }
       else
         format.html { render :new, status: :unprocessable_entity }
