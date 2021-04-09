@@ -1,0 +1,33 @@
+    <div class='channel'>
+      <h2>
+        <%= channel.name %> 
+        (<a href="/channels/<%=channel.object_type%>"><%=channel.object_type.pluralize %></a>)
+      </h2>
+      <p><%= channel.description %></p>
+
+      <ul>
+        <% channel.items.each do |item| %>
+          <li> <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> </li>
+        <% end %>
+      </ul>
+
+      <div class='add-item'>
+        <h3>Add <%=channel.object_type%></h3>
+        <%= form_with(model: channel.items.build , url: { :action => "create", :controller => "items" }, local: true ) do |form| %>
+          <div class="field">
+            <%= form.label :name %>
+            <%= form.text_field :name %>
+          </div>
+
+          <div class="field">
+            <%= form.label :url %>
+            <%= form.text_field :url %>
+          </div>
+          <%= form.hidden_field :channel_id, :value => channel.id %>
+
+          <div class="actions">
+            <%= form.submit %>
+          </div>
+        <% end %>
+      </div>
+    </div>

@@ -6,10 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-rubyBooks = Channel.create({ name: 'Ruby', object_type: 'book', description: 'Best resources for learning Ruby'})
-jsBooks = Channel.create({ name: 'JS', object_type: 'book', description: 'Best resources for learning JavaScript'})
+user1 = User.create({email:'hipsterhacker@pm.me', password:'Fidelio'})
+user2 = User.create({email:'francesca@pm.me', password:'Fidelio'})
 
-songs = Channel.create({ name: 'Love', object_type: 'song', description: 'Best love songs'})
+rubyBooks = Channel.create({ name: 'Ruby', object_type: 'book', description: 'Best resources for learning Ruby', user_id: user1.id})
+jsBooks = Channel.create({ name: 'JS', object_type: 'book', description: 'Best resources for learning JavaScript', user_id: user1.id})
+songs = Channel.create({ name: 'Love', object_type: 'song', description: 'Best love songs', user_id: user2.id})
 
 Item.create([
   {name: 'Ruby on Rails guides', url: 'https://guides.rubyonrails.org', channel_id: rubyBooks.id},

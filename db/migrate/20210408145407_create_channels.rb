@@ -4,6 +4,7 @@ class CreateChannels < ActiveRecord::Migration[6.0]
       t.string :name
       t.text :description
       t.string :object_type
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

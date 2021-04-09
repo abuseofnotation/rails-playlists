@@ -7,15 +7,16 @@ class ChannelsController < ApplicationController
   def index
     puts object_type
     @channels = object_type ? Channel.where({object_type: object_type}) : Channel.all
+    @my_channels = object_type ? Channel.where({user_id: current_user.id, object_type: object_type}) : Channel.where({user_id: current_user.id})
     @channel = Channel.new
   end
 
-
   def create
-    puts params
     @channel = Channel.new(channel_params)
-
+    binding.pry
+    @channel.user_id = current_user.id
     respond_to do |format|
+      
       if @channel.save
         format.html { redirect_back fallback_location: '/', notice: "Channel was successfully created." }
         format.json { render :show, status: :created, location: @channel }
@@ -26,6 +27,6 @@ class ChannelsController < ApplicationController
     end
   end
   def channel_params
-    params.require(:channel).permit(:name, :description, :object_type)
+    params.require(:channel).permit(:name, :description, :object_type, :user_id)
   end
 end
