@@ -1,4 +1,4 @@
-<h2>All</h2>
+<h2>All lists</h2>
 
 <div class='channels'>
   <% if @channels.empty? %> 
@@ -7,16 +7,22 @@
   <%= render @channels %>
 </div>
 
-<h2>My </h2>
-<div class='channels'>
+<h2>Log</h2>
 
+<ul class='votes'>
+  <%= render @votes %>
+</ul>
+
+<% if current_user %>
+
+<h2>My lists</h2>
+<div class='channels'>
   <% if @my_channels.empty? %> 
     <div class="message">No <%= object_type %> channels. Create a new one or <a href="/">See all channels</a> </div>
   <% end %>
   <%= render @my_channels %>
 </div>
 
-<% if current_user %>
 <div class='create-channel'>
   <h2>Create </h2>
   <%= form_with(model: @channel, local: true) do |form| %>

@@ -3,6 +3,7 @@ class CreateItems < ActiveRecord::Migration[6.0]
     create_table :items do |t|
       t.string :name
       t.string :url
+      t.integer :votes_count
       t.references :channel, null: false, foreign_key: true
 
       t.timestamps

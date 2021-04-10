@@ -22,9 +22,14 @@ class ItemsController < ApplicationController
   # POST /items or /items.json
   def create
     @item = Item.new(item_params)
+    @item.votes_count = 1
+    @item.save
 
+    @vote = Vote.new({item_id: @item.id, user_id: current_user.id, new_item: true})
+
+    #TODO see how errors are handled correctly here
     respond_to do |format|
-      if @item.save
+      if @vote.save
         format.html { redirect_back fallback_location: '/', notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
       else

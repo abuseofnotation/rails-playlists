@@ -1,0 +1,8 @@
+<li>
+        <b><%= vote.user.email %></b>
+        <%= vote.new_item ? ' added ' : ' upvoted ' %>
+        <b><%= vote.item.name %></b>
+        in
+        <b><%= vote.item.channel.name %></b>
+        <b><%= vote.item.channel.object_type %></b>
+</li>

@@ -7,8 +7,16 @@
 
       <ul>
         <% channel.items.each do |item| %>
-          <li> <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> </li>
+          <li> <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> <span class="item-votes"><%=item.votes_count%></span></li>
+
+          <%= form_with(model: item.votes.build , url: { :action => "create", :controller => "votes" }, local: true ) do |form| %>
+            <%= form.hidden_field :item_id, :value => item.id %>
+            <div class="actions">
+              <%= form.submit %>
+            </div>
+          <% end %>
         <% end %>
+
       </ul>
 
       <div class='add-item'>
