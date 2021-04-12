@@ -3,6 +3,6 @@ class Channel < ApplicationRecord
   belongs_to :user
 
   def self.default_scope 
-    joins(:items).order('items.created_at desc')
+    includes(items: :votes).order('votes.created_at desc')
   end
 end

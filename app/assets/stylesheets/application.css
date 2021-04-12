@@ -56,3 +56,13 @@ h2 {
     text-align: right;
     margin-bottom: 10px;
 }
+.sign-in {
+    text-align: right;
+    margin: auto;
+    width: 236px;
+    margin-top: 156px;
+}
+.header {
+    text-align: right;
+    margin: 20px;
+}

@@ -25,13 +25,19 @@
           <div class="message">List empty</div>
       <% else %>
         <ul>
-          <% (condensed_view ? channel.items.limit(5): channel.items).each do |item| %>
+          <% get_items(channel, condensed_view).each do |item| %>
             <li> 
               <%= form_with(model: item.votes.build , url: { :action => "create", :controller => "votes" }, local: true ) do |form| %>
                 <%= form.hidden_field :item_id, :value => item.id %>
                 <%= form.submit 'Vote' %>
               <% end %>
-              <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> 
+
+              <%if item.url.empty? %>
+                <%= item.name %>
+              <% else %>
+                <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> 
+              <% end %>
+
               <span class="description item-votes"><%=item.votes_count%></span>
             </li>
           <% end %>

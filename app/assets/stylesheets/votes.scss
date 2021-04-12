@@ -1,3 +1,11 @@
 // Place all the styles related to the Votes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.votes {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin: 20px 5px;
+    li {
+      margin-bottom: 10px;
+    }
+}

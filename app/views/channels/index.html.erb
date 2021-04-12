@@ -1,21 +1,26 @@
-<% if object_type %>
-<h1><%=object_type%> lists</h1>
-<% else %>
-<h1>All lists</h1>
+<% @channels.each_pair do |type, channels| %>
+
+  <h1><%=type%> lists 
+    <% if @channels.length == 1 %>
+    (<a href="/">see all lists</a>)
+    <% else %>
+    (<a href="/types/<%=type%>/">see all </a>)
+    <% end %>
+  </h1>
+  <div class='channels'>
+    <%= render channels, condensed_view: true %>
+  </div>
 <% end %>
 
 <% if @channels.empty? %> 
     <div class="message">No <%= object_type %> lists. Create a new one or <a href="/">See all channels</a> </div>
   <% else %>
-  <div class='channels'>
-    <%= render @channels, condensed_view: true %>
-  </div>
 <% end %>
 
 <% if current_user %>
-  <div class="message"><a href="/users">Go to your profile</a> to create a new channel</a> </div>
+  <div class="message"><a href="/users">Go to your profile</a> to create a new list</a> </div>
 <% else %>
-  <div class="message"><a href="/sign_in">Sign in</a> to create a new channel</a> </div>
+  <div class="message"><a href="/sign_in">Sign in</a> to create a new list</a> </div>
 <% end %>
 
 <ul class='votes'>

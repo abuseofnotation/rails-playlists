@@ -21,22 +21,28 @@ class ItemsController < ApplicationController
 
   # POST /items or /items.json
   def create
-    @item = Item.new(item_params)
-    @item.votes_count = 1
-    @item.save
 
-    @vote = Vote.new({item_id: @item.id, user_id: current_user.id, new_item: true})
+    ActiveRecord::Base.transaction do
+      # create the item
+      @item = Item.new(item_params)
+      @item.votes_count = 1
+      @item.save!
 
-    #TODO see how errors are handled correctly here
-    respond_to do |format|
-      if @vote.save
-        format.html { redirect_back fallback_location: '/', notice: "Item was successfully created." }
-        format.json { render :show, status: :created, location: @item }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @item.errors, status: :unprocessable_entity }
-      end
+      # save the event in the log
+      @vote = Vote.new({item_id: @item.id, user_id: current_user.id, new_item: true})
+      @vote.save!
     end
+
+    respond_to do |format|
+      format.html { redirect_back fallback_location: '/', notice: "Item was successfully created." }
+      format.json { render :show, status: :created, location: @item }
+    end
+
+    rescue ActiveRecord::RecordInvalid 
+      respond_to do |format|
+        format.html { redirect_back fallback_location: '/', notice: "Error while saving the item"}
+        format.json { render status: :unprocessable_entity }
+      end
   end
 
   # PATCH/PUT /items/1 or /items/1.json

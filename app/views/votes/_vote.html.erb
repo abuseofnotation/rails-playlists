@@ -1,8 +1,12 @@
 <li>
-        <b><%= vote.user.email %></b>
+        <a href="/users/<%=vote.user.id%>">
+          <b><%= vote.user.email %></b>
+        </a>
         <%= vote.new_item ? ' added ' : ' upvoted ' %>
         <b><%= vote.item.name %></b>
         in
-        <b><%= vote.item.channel.name %></b>
-        <b><%= vote.item.channel.object_type %></b>
+        <a href="/channels/<%=vote.item.channel_id%>">
+          <b><%= vote.item.channel.name %></b>
+          <b><%= vote.item.channel.object_type %></b>
+        </a>
 </li>

@@ -8,9 +8,11 @@ class UsersController < ApplicationController
     object_type ? {object_type: object_type} : nil
   end 
 
-  def index
-    @channels = Channel.includes(:items).where({user_id: current_user.id}).where(object_type_filter)
+  def show
+    @user = params[:id] ? User.find(params[:id]) : current_user
+    @channels = Channel.includes(:items).where({user_id: @user.id}).where(object_type_filter)
+    puts @channels
     @channel = Channel.new
-    @votes = Vote.where(user_id: current_user.id)
+    @votes = Vote.where(user_id: @user.id)
   end
 end
