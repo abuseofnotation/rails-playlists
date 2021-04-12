@@ -1,0 +1,50 @@
+<h1><%=current_user.email%></h1>
+<% if @channels.empty? %> 
+  <div class="message">No <%= object_type %> channels. Create a new one or <a href="/">See all channels</a> </div>
+<% else %>
+
+<div class='channels'>
+  <%= render @channels, condensed_view: true %>
+
+  <div class='channel long-form'>
+    <h2>Your new List </h2>
+    <%= form_with(model: @channel, local: true) do |form| %>
+      <% if @channel.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@channel.errors.count, "error") %> prohibited this item from being saved:</h2>
+          <ul>
+            <% @channel.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+      </div>
+      <div class="field">
+        <%= form.label :description %>
+        <%= form.text_field :description %>
+      </div>
+      <% if object_type %>
+        <%= form.hidden_field :object_type, :value => object_type%>
+      <% else %>
+        <div class="field">
+          <%= form.label :object_type %>
+          <%= form.text_field :object_type %>
+        </div>
+      <% end %>
+      <div class="channel-actions">
+        <%= form.submit "Add list" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% end %>
+
+<ul class='votes'>
+  <%= render @votes %>
+</ul>
+

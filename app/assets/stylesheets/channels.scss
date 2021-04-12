@@ -1,8 +1,45 @@
 // Place all the styles related to the Channels controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
- .channel {
-  margin: 10px;
+.channel {
+  flex: 1;
+  margin: 10px 10px 0 0;
   min-width: 300px;
-  
- }
+  min-height: 215px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  form {
+    display: inline
+  }
+  position:relative;
+  padding-bottom: 30px;
+  ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin: 5px;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+  .channel-actions {
+    position: absolute;
+    bottom: 5px;
+    text-align: center;
+  }
+  .channel-icons {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    a {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      font-size: 17px;
+      color: #ccc;
+      background-color: black;
+      text-decoration: none;
+    }
+  }
+}

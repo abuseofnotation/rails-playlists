@@ -9,19 +9,17 @@ class ChannelsController < ApplicationController
     object_type ? {object_type: object_type} : nil
   end 
 
-  def index
+  def channel_params
+    params.require(:channel).permit(:name, :description, :object_type, :user_id)
+  end
 
+  def index
     @channels = Channel.includes(:items).where(object_type_filter) 
 
-    if current_user
-      @my_channels = Channel.includes(:items).where({user_id: current_user.id}).where(object_type_filter)
-    else 
-      @my_channels = []
-    end
-
     if (object_type) 
-    @votes = Vote.joins(item:[:channel]).where("object_type = '#{object_type}'").references(:channel).
+    @votes = Vote.joins(item:[:channel]).where(channels: object_type_filter).
         includes(:user, item: [:channel])
+    puts @votes
     else
     @votes = Vote.all.
         includes(:user, item: [:channel])
@@ -44,7 +42,14 @@ class ChannelsController < ApplicationController
       end
     end
   end
-  def channel_params
-    params.require(:channel).permit(:name, :description, :object_type, :user_id)
+
+  def show
+    @channel = Channel.find(params[:id])
+
+    @channels = Channel.includes(:items).where(object_type: @channel.object_type).where.not(id: @channel.id).limit(5)
+
+    @votes = Vote.joins(item:[:channel]).where(items:{channel_id: params[:id]}).
+        includes(:user, item: [:channel]).limit(50)
   end
+
 end

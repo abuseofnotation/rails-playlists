@@ -1,0 +1,10 @@
+  <%= render @channel, condensed_view: false %>
+
+  <ul class='votes'>
+    <%= render @votes %>
+  </ul>
+
+  <h2> Other <%=@channel.object_type %> lists</h2>
+  <div class='channels'>
+    <%= render @channels, condensed_view: true %>
+  </div>

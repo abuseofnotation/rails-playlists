@@ -1,41 +1,61 @@
     <div class='channel'>
-      <h2>
-        <%= channel.name %> 
-        (<a href="/channels/<%=channel.object_type%>"><%=channel.object_type.pluralize %></a>)
-      </h2>
-      <p><%= channel.description %></p>
+      <div class="channel-icons">
+        <% if condensed_view %>
+          <%= link_to "↗", channel_path(channel, {context: request.path})%>
+        <% else %>
+          <%= link_to "↙", request.params[:context] %>
+        <% end %>
 
-      <ul>
-        <% channel.items.each do |item| %>
-          <li> <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> <span class="item-votes"><%=item.votes_count%></span></li>
+      </div>
+      <% if condensed_view %>
+        <h2>
+          <%= channel.name %> 
+          (<a href="/types/<%=channel.object_type%>"><%=channel.object_type.pluralize %></a>)
+          <span class="description"><%= channel.description %></span>
+        </h2>
+      <% else %>
+        <h1>
+          <%= channel.name %> 
+          (<a href="/types/<%=channel.object_type%>"><%=channel.object_type.pluralize %></a>)
+          <span class="description"><%= channel.description %></span>
+        </h1>
+      <% end %>
 
-          <%= form_with(model: item.votes.build , url: { :action => "create", :controller => "votes" }, local: true ) do |form| %>
-            <%= form.hidden_field :item_id, :value => item.id %>
-            <div class="actions">
-              <%= form.submit %>
+      <% if channel.items.empty? %>
+          <div class="message">List empty</div>
+      <% else %>
+        <ul>
+          <% (condensed_view ? channel.items.limit(5): channel.items).each do |item| %>
+            <li> 
+              <%= form_with(model: item.votes.build , url: { :action => "create", :controller => "votes" }, local: true ) do |form| %>
+                <%= form.hidden_field :item_id, :value => item.id %>
+                <%= form.submit 'Vote' %>
+              <% end %>
+              <a href="<%=item.url%>" target="_blank"> <%= item.name %></a> 
+              <span class="description item-votes"><%=item.votes_count%></span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+
+      <% if condensed_view %>
+        <div class="channel-actions">
+          <%= link_to "Expand", channel %>
+        </div>
+      <% else %>
+        <div class='channel-actions'>
+          <%= form_with(model: @channel.items.build , url: { :action => "create", :controller => "items" }, local: true ) do |form| %>
+            <div class="field">
+              <%= form.label :name %>
+              <%= form.text_field :name, {autofocus: true} %>
+
+              <%= form.label :url %>
+              <%= form.text_field :url %>
+              <%= form.hidden_field :channel_id, :value => @channel.id %>
+              <%= form.submit "add #{channel.object_type}" %>
             </div>
           <% end %>
-        <% end %>
-
-      </ul>
-
-      <div class='add-item'>
-        <h3>Add <%=channel.object_type%></h3>
-        <%= form_with(model: channel.items.build , url: { :action => "create", :controller => "items" }, local: true ) do |form| %>
-          <div class="field">
-            <%= form.label :name %>
-            <%= form.text_field :name %>
-          </div>
-
-          <div class="field">
-            <%= form.label :url %>
-            <%= form.text_field :url %>
-          </div>
-          <%= form.hidden_field :channel_id, :value => channel.id %>
-
-          <div class="actions">
-            <%= form.submit %>
-          </div>
-        <% end %>
-      </div>
+        </div>
+      <%end%>
     </div>
