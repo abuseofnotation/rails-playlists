@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2021_04_09_195947) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "channels", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "object_type"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_channels_on_user_id"
@@ -26,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_195947) do
     t.string "name"
     t.string "url"
     t.integer "votes_count"
-    t.integer "channel_id", null: false
+    t.bigint "channel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["channel_id"], name: "index_items_on_channel_id"
@@ -46,8 +49,8 @@ ActiveRecord::Schema.define(version: 2021_04_09_195947) do
   create_table "votes", force: :cascade do |t|
     t.string "comment"
     t.boolean "new_item"
-    t.integer "item_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["item_id"], name: "index_votes_on_item_id"
